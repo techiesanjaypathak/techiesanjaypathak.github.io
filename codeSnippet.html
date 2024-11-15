@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Copy to Clipboard Example</title>
+    <style>
+        /* Simple styling */
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            text-align: center;
+        }
+        .copy-btn {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        .copy-btn:hover {
+            background-color: #45a049;
+        }
+        .message {
+            margin-top: 10px;
+            font-size: 14px;
+            color: green;
+            visibility: hidden;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <p id="textToCopy">Hello, World!</p>
+        <button class="copy-btn" onclick="copyText()">Copy to Clipboard</button>
+        <p id="successMessage" class="message">Text copied to clipboard!</p>
+    </div>
+
+    <script>
+        // Function to copy the text to the clipboard
+        function copyText() {
+            // Get the text to copy
+            var textToCopy = document.getElementById("textToCopy").innerText;
+
+            // Create a temporary text area to hold the text
+            var tempTextArea = document.createElement("textarea");
+            tempTextArea.value = textToCopy;
+            document.body.appendChild(tempTextArea);
+
+            // Select and copy the text
+            tempTextArea.select();
+            document.execCommand("copy");
+
+            // Remove the temporary text area
+            document.body.removeChild(tempTextArea);
+
+            // Show success message
+            var successMessage = document.getElementById("successMessage");
+            successMessage.style.visibility = "visible";
+
+            // Hide the success message after 2 seconds
+            setTimeout(function() {
+                successMessage.style.visibility = "hidden";
+            }, 1000);
+        }
+    </script>
+
+</body>
+</html>
+
