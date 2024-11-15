@@ -1,1 +1,0 @@
-# techiesanjaypathak.github.io
