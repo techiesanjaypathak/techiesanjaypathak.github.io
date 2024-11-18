@@ -18,19 +18,30 @@
         #appStoreButton:hover {
             background-color: #0056b3;
         }
+        #appMessage {
+            display: none;
+            margin-top: 20px;
+            font-size: 18px;
+            color: green;
+        }
     </style>
 </head>
 <body>
     <h1>Checking if the app is installed...</h1>
 
+    <!-- Message when app is installed -->
+    <div id="appMessage">The app is already installed!</div>
+
+    <!-- Button to redirect to the App Store -->
     <button id="appStoreButton" onclick="window.location.href='https://apps.apple.com/us/app/idrive-crm/id1672260637'">
         Go to App Store
     </button>
 
     <script>
+        
         window.onload = function() {
             var appScheme = 'idrivecrm://';  // Your custom URL scheme (replace with your app's scheme)
-            var appStoreUrl = 'https://apps.apple.com/app/idYOUR_APP_ID';  // Your App Store URL
+            var appStoreUrl = 'https://apps.apple.com/us/app/idrive-crm/id1672260637';  // Your App Store URL
 
             // Attempt to access the custom URL scheme to infer if the app is installed
             var iframe = document.createElement('iframe');
@@ -45,6 +56,15 @@
                 // If after 2 seconds the app hasn't opened, assume it's not installed
                 document.getElementById('appStoreButton').style.display = 'inline-block';  // Show the button
             }, 2000); // Adjust timeout to fit your needs (in ms)
+
+            // If the app is installed, show the "App already installed" message
+            setTimeout(function() {
+                var elapsedTime = Date.now() - startTime;
+                if (elapsedTime < 2000) {
+                    // App opened within 2 seconds, show message "App is already installed"
+                    document.getElementById('appMessage').style.display = 'block'; // Show message
+                }
+            }, 2000); // Wait to check if the app is opened
 
             // Cleanup the iframe after some time
             setTimeout(function() {
