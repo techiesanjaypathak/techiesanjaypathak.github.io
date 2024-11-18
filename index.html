@@ -38,10 +38,12 @@
     </button>
 
     <script>
-        
         window.onload = function() {
             var appScheme = 'idrivecrm://';  // Your custom URL scheme (replace with your app's scheme)
             var appStoreUrl = 'https://apps.apple.com/us/app/idrive-crm/id1672260637';  // Your App Store URL
+
+            // Start time to measure if the app opens
+            var startTime = Date.now();
 
             // Attempt to access the custom URL scheme to infer if the app is installed
             var iframe = document.createElement('iframe');
@@ -51,27 +53,25 @@
             // Attach the iframe to the body (this will trigger the app opening attempt)
             document.body.appendChild(iframe);
 
-            // Set up a timeout to determine if the app is installed or not
-            var timeout = setTimeout(function() {
-                // If after 2 seconds the app hasn't opened, assume it's not installed
-                document.getElementById('appStoreButton').style.display = 'inline-block';  // Show the button
-            }, 2000); // Adjust timeout to fit your needs (in ms)
-
-            // If the app is installed, show the "App already installed" message
+            // Set up a timeout to check after a brief period if the app was opened
             setTimeout(function() {
                 var elapsedTime = Date.now() - startTime;
-                if (elapsedTime < 2000) {
-                    // App opened within 2 seconds, show message "App is already installed"
-                    document.getElementById('appMessage').style.display = 'block'; // Show message
-                }
-            }, 2000); // Wait to check if the app is opened
 
-            // Cleanup the iframe after some time
+                if (elapsedTime < 2000) {
+                    // If the app opened within 2 seconds, it means the app is installed
+                    document.getElementById('appMessage').style.display = 'block';  // Show the message "App is installed"
+                } else {
+                    // If more time passed, assume the app is not installed
+                    document.getElementById('appStoreButton').style.display = 'inline-block';  // Show the App Store button
+                }
+            }, 2000);  // 2-second delay to check if the app is opened
+
+            // Cleanup the iframe after 2.5 seconds
             setTimeout(function() {
                 document.body.removeChild(iframe);
-                clearTimeout(timeout);
-            }, 2500); // Cleanup after slightly more than the timeout
+            }, 2500);
         };
     </script>
 </body>
 </html>
+
